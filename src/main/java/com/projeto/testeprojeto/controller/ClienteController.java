@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +23,11 @@ public class ClienteController {
     @GetMapping
     public List<Cliente> listar() {
         return clienteRepository.findAll();
+    }
+
+    @GetMapping("/por-nome")
+    public List<String> listarPorNome() {
+        return clienteRepository.findAllNome();
     }
 
     @GetMapping("/{clienteId}")

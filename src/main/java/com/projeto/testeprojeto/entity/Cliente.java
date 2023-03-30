@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Data
@@ -19,7 +18,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "nome")
     @NotBlank
     private String nome;
 
@@ -28,6 +27,4 @@ public class Cliente {
     @Email
     @NotBlank
     private String email;
-
-
 }
