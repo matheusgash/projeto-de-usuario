@@ -19,12 +19,9 @@ public class Cliente {
     private Long id;
 
     @Column(name = "nome")
-    @NotBlank
     private String nome;
 
     private OffsetDateTime createdAt;
 
-    @Email
-    @NotBlank
     private String email;
 }

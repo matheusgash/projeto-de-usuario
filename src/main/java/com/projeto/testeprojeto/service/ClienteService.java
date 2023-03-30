@@ -1,6 +1,8 @@
 package com.projeto.testeprojeto.service;
 
 import com.projeto.testeprojeto.entity.Cliente;
+import com.projeto.testeprojeto.input.ClienteInput;
+import com.projeto.testeprojeto.mapper.ClienteMapper;
 import com.projeto.testeprojeto.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,16 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @Transactional
-    public Cliente salvar(Cliente cliente) {
 
+    public Cliente buscar(Long clienteId) {
+        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
+
+        return cliente.get();
+    }
+
+    @Transactional
+    public Cliente salvar(ClienteInput clienteInput) {
+        Cliente cliente = ClienteMapper.fromDtoToEntity(clienteInput);
         cliente.setCreatedAt(OffsetDateTime.now());
 
         return clienteRepository.save(cliente);
@@ -31,18 +40,13 @@ public class ClienteService {
     }
 
     @Transactional
-    public Cliente atualizar(Long clienteId, Cliente cliente) {
+    public Cliente atualizar(Long clienteId, ClienteInput clienteInput) {
+        clienteRepository.findById(clienteId);
 
-        Optional<Cliente> clienteAtualizado = clienteRepository.findById(clienteId);
+        Cliente clienteAtualizado = ClienteMapper.fromDtoToEntity(clienteInput);
+        clienteAtualizado.setId(clienteId);
 
-        BeanUtils.copyProperties(cliente, clienteAtualizado.get(), "id", "createdAt");
-
-        return clienteRepository.save(clienteAtualizado.get());
+        return clienteRepository.save(clienteAtualizado);
     }
 
-    public Cliente buscar(Long clienteId) {
-        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
-
-        return cliente.get();
-    }
 }
